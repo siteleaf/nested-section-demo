@@ -1,0 +1,11 @@
+<ul>
+{% assign sorted = site.documents | where_exp: 'item','item.url contains include.parent' | sort: 'position' %}
+{% for item in sorted %}
+  {% assign parent_level = include.parent | split: '/' | size %}
+  {% assign this_level = item.url | split: '/' | size | minus: 1 %}
+  {% if this_level == parent_level %}
+    <li> {{ item.title }}
+    {% include sections.html parent=item.url %}
+  {% endif %}
+{% endfor %}
+</ul>
